@@ -30,4 +30,4 @@ echo "Inicialização concluída. Subindo o FrankenPHP..."
 
 # Sobe o servidor. As flags de SERVER_NAME e SERVER_ROOT vêm do
 # ambiente (definidas no Dockerfile / docker run).
-exec frankenphp run --config ./Caddyfile
+exec frankenphp run --config Caddyfile
