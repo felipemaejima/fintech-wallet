@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-cd ../app
+cd /app
 
 # Garante que o .env existe (em produção, normalmente vem via
 # variáveis de ambiente do `docker run`, mas mantemos o fallback)
@@ -30,4 +30,4 @@ echo "Inicialização concluída. Subindo o FrankenPHP..."
 
 # Sobe o servidor. As flags de SERVER_NAME e SERVER_ROOT vêm do
 # ambiente (definidas no Dockerfile / docker run).
-exec frankenphp run --config Caddyfile
+exec frankenphp run --config /etc/frankenphp/Caddyfile
