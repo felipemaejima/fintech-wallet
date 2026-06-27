@@ -1,0 +1,77 @@
+INICIO
+
+FINTECH-WALLET
+
+README.md com: visão geral, decisões técnicas, como rodar localmente e link do deploy
+repository pattern - se sobrar tempo
+setar laravel sail para facilitar o deploy
+
+1 - STACK
+ - LARAVEL
+ - POSTGRES
+ - VUE
+ - ARQUITETURA MODULAR
+ - SANCTUM
+
+2 - DEPLOY
+ - AWS
+
+3 - DATABASE (MIGRATIONS)
+ - ELOQUENT
+ - POSTGREESQL
+
+4 - TESTES
+ - TESTAR SITUAÇÕES ATIPICAS
+
+5 - SETUP (DESENVOLVIMENTO)
+
+ AUTH - LOGIN E LOGOUT (SANCTUM)
+
+ENTITIES
+
+ USER(
+  NAME,
+  EMAIL,
+  PASSWORD,
+
+ ) {
+  CREATE() // INICIALIZA A CARTEIRA ZERADA
+ }
+
+ AUTH {
+  LOGIN()
+  LOGOUT()
+ }
+
+ WALLET (
+  USER,
+  BALANCE
+ ){
+  CREATE()
+ }
+
+ #FILTRO POR TIPO E PERIODO
+ TRANSACTIONS (
+  TYPE(
+   DEPOSIT,
+   CREDIT
+  ),
+  AMOUNT
+  BALANCE_AFTER
+  STATUS(
+   PENDING,
+   FAILED,
+   COMPLETED
+  )
+ ) {
+  LIST() // COM PAGINAÇÃO
+
+  #POSITIVO MAIOR QUE ZERO
+  DEPOSIT() // ADICIONA SALDO A PROPRIA CARTEIRA
+
+  #SALDO SUFICIENTE
+  #MINIMO 0,01
+  WITHDRAW() // SACAR
+ }
+
+ 
