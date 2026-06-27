@@ -6,7 +6,9 @@ use App\Models\Wallet;
 use App\Modules\Wallet\Exceptions\InsufficientBalanceException;
 use App\Modules\Wallet\Services\WalletService;
 
-// use function Pest\Laravel\mock;
+// use Tests\TestCase;
+
+// uses(TestCase::class);
 
 beforeEach(function () {
   $this->service = new WalletService();
