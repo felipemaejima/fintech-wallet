@@ -9,7 +9,7 @@ return new class extends Migration {
   {
     Schema::create('transactions', function (Blueprint $table) {
       $table->uuid('id')->primary();
-      $table->foreignId('wallet_id')
+      $table->foreignUuid('wallet_id')
         ->constrained()
         ->cascadeOnDelete();
       $table->enum('type', ['credit', 'debit']);
