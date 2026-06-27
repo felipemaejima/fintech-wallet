@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Casts;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 
 #[Fillable([
   'wallet_id',
@@ -16,14 +16,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
   'balance_after',
   'status',
 ])]
-#[Casts([
-  'amount' => 'decimal:2',
-  'balance_after' => 'decimal:2',
-])]
 class Transaction extends Model
 {
-  use HasUuids;
+  use HasFactory, HasUuids;
 
+  /**
+   * Get the attributes that should be cast.
+   *
+   * @return array<string, string>
+   */
+  protected function casts(): array
+  {
+    return [
+      'amount' => 'decimal:2',
+      'balance_after' => 'decimal:2',
+    ];
+  }
 
   public function wallet(): BelongsTo
   {
