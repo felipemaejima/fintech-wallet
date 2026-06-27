@@ -42,15 +42,7 @@ Vue 3 (SPA)  ──HTTP/JSON + Bearer token──>  Laravel API  ──>  Postgr
 
 **Arquitetura modular em camadas.** O código de domínio é organizado em módulos dentro de `app/Modules` (Auth, Wallet), cada um com suas próprias camadas: Controllers (entrega HTTP), Requests (validação), Services (regras de negócio). Os Controllers são finos e delegam toda a lógica aos Services, mantendo as responsabilidades isoladas.
 
-**Tabela `wallets` separada de `users`.** O saldo vive em sua própria tabela, isolando a responsabilidade financeira e permitindo travar a linha da carteira durante operações sem bloquear o registro do usuário. O histórico de transações é a fonte de verdade reconciliável contra o saldo.
-
 **Atomicidade e concorrência.** Depósitos e saques rodam dentro de uma transação de banco (`DB::transaction`) com lock pessimista na carteira (`lockForUpdate`). A validação de saldo ocorre dentro da transação, após o lock, evitando condição de corrida entre saques concorrentes. Em caso de falha, o rollback garante que nenhum dado seja alterado.
-
-**Aritmética monetária com precisão.** Valores são armazenados como `DECIMAL(15,2)` e operados com funções `bcmath` (`bcadd`, `bcsub`, `bccomp`), evitando erros de ponto flutuante. Cada transação registra o `balance_after` (saldo resultante).
-
-**Chaves primárias UUID.** Todas as entidades usam UUID como chave primária, evitando exposição de volume de registros e enumeração de IDs — relevante em contexto financeiro.
-
-**Sem over-engineering.** Sem Repository pattern, DDD, filas ou microsserviços. Eloquent é usado diretamente nos Services. Transferências entre usuários estão fora do escopo.
 
 ---
 
@@ -102,10 +94,6 @@ DB_DATABASE=fintech_wallet
 DB_USERNAME=postgres
 DB_PASSWORD=sua_senha
 DB_SSLMODE=prefer
-
-# Origem do frontend (para CORS / Sanctum)
-FRONTEND_URL=http://localhost:5173
-SANCTUM_STATEFUL_DOMAINS=localhost:5173
 ```
 
 > Para usar o Neon, copie os dados de conexão do painel e defina `DB_SSLMODE=require`.
@@ -259,17 +247,11 @@ docker run -d --name fintech \
 
 ### Frontend — Vercel / Netlify (build estático)
 
-O frontend é um build estático (`dist/`) hospedado em **Vercel** ou **Netlify**. O fallback de rotas da SPA está configurado em `frontend/vercel.json` (Vercel) e `frontend/public/_redirects` (Netlify), garantindo que rotas client-side funcionem em refresh.
+O frontend é um build estático (`dist/`) hospedado em **Vercel**. O fallback de rotas da SPA está configurado em `frontend/vercel.json` (Vercel), garantindo que rotas client-side funcionem em refresh.
 
 **Configuração:**
 - Defina `VITE_API_URL` apontando para a URL HTTPS da API (`https://18.190.159.168.nip.io/api`).
 - O build (`npm run build`) é executado automaticamente pela plataforma a cada push.
-
-### CORS e Mixed Content
-
-Como o frontend hospedado roda em **HTTPS**, a API também precisa responder em **HTTPS** (resolvido pelo FrankenPHP + nip.io), evitando bloqueio de **Mixed Content** no navegador. Além disso, o backend libera **CORS** para a origem do frontend em `config/cors.php`, permitindo as chamadas cross-origin.
-
----
 
 ## Licença
 
