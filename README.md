@@ -2,9 +2,8 @@
 
 Aplicação de carteira digital composta por uma API REST em Laravel (backend) e uma SPA em Vue 3 (frontend). O usuário pode se cadastrar, autenticar, depositar, sacar e acompanhar o histórico de transações da sua carteira.
 
-🔗 **Deploy (Frontend):** <COLOQUE_O_LINK_DO_FRONTEND_VERCEL>
-🔗 **Deploy (API):** https://18.190.159.168.nip.io/api
-🔗 **Repositório:** <COLOQUE_O_LINK_DO_REPOSITORIO>
+**Deploy (Frontend):** https://fintech-wallet-gamma.vercel.app/history
+**Deploy (API):** https://18.190.159.168.nip.io/api
 
 O repositório é dividido em dois projetos independentes:
 
